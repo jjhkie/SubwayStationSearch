@@ -4,9 +4,12 @@ import UIKit
 
 class StationSearchViewController: UIViewController {
 
+    var numberOfCell : Int = 0
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.isHidden = true
         
         return tableView
@@ -49,7 +52,7 @@ class StationSearchViewController: UIViewController {
 extension StationSearchViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return numberOfCell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,15 +63,27 @@ extension StationSearchViewController: UITableViewDataSource{
     }
 }
 
+extension StationSearchViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = StationDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+}
+
 ///  searchBar Click Event
 ///   cursor가 SearchBar에 있을 경우 TableView 의 isHidden = false
-///   cursor가 빠져나온 경우 isHidden = true 
+///   cursor가 빠져나온 경우 isHidden = true
 extension StationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        numberOfCell = 10
+        tableView.reloadData()
         tableView.isHidden = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        numberOfCell = 0
+        tableView.reloadData()
         tableView.isHidden = true
     }
 }
