@@ -5,7 +5,7 @@ import UIKit
 
 class StationSearchViewController: UIViewController {
 
-    var numberOfCell : Int = 0
+    private var stations: [Station] = []
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -22,8 +22,6 @@ class StationSearchViewController: UIViewController {
         
         setNavigationItems()
         setTableViewLayout()
-        
-        requestStationName()
         
     }
     
@@ -52,16 +50,19 @@ class StationSearchViewController: UIViewController {
     }
     
     
-    private func requestStationName(){
-        let urlString = "http://openAPI.seoul.go.kr:8088/sample/json/SearchInfoBySubwayNameService/1/5/종로3가"
+    private func requestStationName(from stationName: String){
+        let urlString = "http://openAPI.seoul.go.kr:8088/sample/json/SearchInfoBySubwayNameService/1/5/\(stationName)"
         
         ///url 에 한글이 포함되어 있다면 인코딩하면서 특수문자로 변환된다.
         ///그런 문제점을 보안하기 위해 아래와 같은 addingPercentEncoding으로 감싸주어 실행해준다.
         AF.request(urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-            .responseDecodable(of: StationResponseModel.self){ response in
-                guard case .success(let data) = response.result else { return }
+            .responseDecodable(of: StationResponseModel.self){ [weak self] response in
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else { return }
                 
-                print(data.stations)
+                self.stations = data.stations
+                self.tableView.reloadData()
             }
             .resume()
     }
@@ -70,12 +71,14 @@ class StationSearchViewController: UIViewController {
 extension StationSearchViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfCell
+        return stations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "\(indexPath.item)"
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+        let station = stations[indexPath.row]
+        cell.textLabel?.text = station.stationName
+        cell.detailTextLabel?.text = station.lineNumber
         
         return cell
     }
@@ -94,14 +97,20 @@ extension StationSearchViewController: UITableViewDelegate{
 ///   cursor가 빠져나온 경우 isHidden = true
 extension StationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        numberOfCell = 10
+ 
         tableView.reloadData()
         tableView.isHidden = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        numberOfCell = 0
-        tableView.reloadData()
+  
         tableView.isHidden = true
+        stations = []
+    }
+    
+    ///searchBar에서 해당 텍스트가 입력될 때마다 api 를 호출할 것이므로
+    ///textDidChange 를 사용하여 텍스트가 변하는 타이밍을 인식해준다.
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        requestStationName(from: searchText)
     }
 }
