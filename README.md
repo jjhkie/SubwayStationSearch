@@ -6,11 +6,11 @@
   
   - [Alamofire](https://github.com/Alamofire/Alamofire)
   
-  - UISearchController
+  - [UISearchController](https://developer.apple.com/documentation/uikit/uisearchcontroller)
   
-  - UICollectionView + CustomCell
+  - [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview) + CustomCell
   
-  - UIRefreshControl
+  - [UIRefreshControl](https://developer.apple.com/documentation/uikit/uirefreshcontrol)
 
 ## [ API ]
   
@@ -26,6 +26,10 @@
     [( 해결 )](https://jjhkie.tistory.com/entry/HTTPERROR-Nabee) 
   
   - 자동완성 기능 구현 
+
+        - Request Method 를 호출하는 적절한 타이밍 구현
+      	- 가져온 데이터가 UITableView에 표시되도록 구현 
+
   
   - 글자 입력 시 자동 검색 결과 TableView를 사용하여 구현 
   
