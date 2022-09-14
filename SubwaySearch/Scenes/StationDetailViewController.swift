@@ -2,6 +2,7 @@
 
 import SnapKit
 import UIKit
+import Alamofire
 
 class StationDetailViewController: UIViewController{
     
@@ -32,10 +33,30 @@ class StationDetailViewController: UIViewController{
     }()
     
     /// Refresh Control이 실행되었을 때
-    @objc func fetchData(){
+    @objc private func fetchData(){
         
         print("실행할 기능")
+        //endRefreshing() 결국 서버에서 정보호추링 끝났을 때 실행되야 한다.
         refreshControl.endRefreshing()
+        
+        ///해당 API에서 서울을 입력받으면 정상적으로 작동하지만
+        ///서울역처럼 뒤에 역이 들어간다면 작동에 오류가 발생한다
+        ///그 문제점을 해결하기 위해  아래와 같은 코드를 사용
+        
+        let stationName = "서울역"
+        
+        let urlString = "http://swopenapi.seoul.go.kr/api/subway/sample/json/realtimeStationArrival/0/5/\(stationName.replacingOccurrences(of: "역", with: ""))"
+        
+        AF
+            .request(urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: StationArriveDataResponseModel.self){ [weak self] response in
+                self?.refreshControl.endRefreshing()
+                guard case .success(let data) = response.result else {return}
+                
+                print(data.realtimeArrivalList)
+                
+            }
+            .resume()
     }
     
     
@@ -48,6 +69,8 @@ class StationDetailViewController: UIViewController{
         collectionView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
+        
+        fetchData()
     }
 }
 

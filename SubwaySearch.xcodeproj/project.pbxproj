@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B455389128D155A2002C8335 /* StationResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B455389028D155A2002C8335 /* StationResponseModel.swift */; };
+		B455389328D15DC3002C8335 /* StationArriveDataResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B455389228D15DC3002C8335 /* StationArriveDataResponseModel.swift */; };
 		B4F2967E28D05A8800882F2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F2967D28D05A8800882F2A /* AppDelegate.swift */; };
 		B4F2968028D05A8800882F2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F2967F28D05A8800882F2A /* SceneDelegate.swift */; };
 		B4F2968228D05A8800882F2A /* StationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F2968128D05A8800882F2A /* StationSearchViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B455389028D155A2002C8335 /* StationResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationResponseModel.swift; sourceTree = "<group>"; };
+		B455389228D15DC3002C8335 /* StationArriveDataResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationArriveDataResponseModel.swift; sourceTree = "<group>"; };
 		B4F2967A28D05A8800882F2A /* SubwaySearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubwaySearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4F2967D28D05A8800882F2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4F2967F28D05A8800882F2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +72,8 @@
 				B4F2968628D05A8800882F2A /* Assets.xcassets */,
 				B4F2968828D05A8800882F2A /* LaunchScreen.storyboard */,
 				B4F2968B28D05A8800882F2A /* Info.plist */,
+				B455389028D155A2002C8335 /* StationResponseModel.swift */,
+				B455389228D15DC3002C8335 /* StationArriveDataResponseModel.swift */,
 			);
 			path = SubwaySearch;
 			sourceTree = "<group>";
@@ -161,10 +167,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4F2969928D068F800882F2A /* StationDetailViewController.swift in Sources */,
+				B455389128D155A2002C8335 /* StationResponseModel.swift in Sources */,
 				B4F2969D28D070CD00882F2A /* StationDetailCollectionViewCell.swift in Sources */,
 				B4F2968228D05A8800882F2A /* StationSearchViewController.swift in Sources */,
 				B4F2967E28D05A8800882F2A /* AppDelegate.swift in Sources */,
 				B4F2968028D05A8800882F2A /* SceneDelegate.swift in Sources */,
+				B455389328D15DC3002C8335 /* StationArriveDataResponseModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,6 @@
 
 import SnapKit
+import Alamofire
 import UIKit
 
 class StationSearchViewController: UIViewController {
@@ -21,6 +22,8 @@ class StationSearchViewController: UIViewController {
         
         setNavigationItems()
         setTableViewLayout()
+        
+        requestStationName()
         
     }
     
@@ -46,6 +49,21 @@ class StationSearchViewController: UIViewController {
         tableView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
+    }
+    
+    
+    private func requestStationName(){
+        let urlString = "http://openAPI.seoul.go.kr:8088/sample/json/SearchInfoBySubwayNameService/1/5/종로3가"
+        
+        ///url 에 한글이 포함되어 있다면 인코딩하면서 특수문자로 변환된다.
+        ///그런 문제점을 보안하기 위해 아래와 같은 addingPercentEncoding으로 감싸주어 실행해준다.
+        AF.request(urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: StationResponseModel.self){ response in
+                guard case .success(let data) = response.result else { return }
+                
+                print(data.stations)
+            }
+            .resume()
     }
 }
 
